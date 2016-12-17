@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+osacompile -o bundle.app/Contents/Resources/Scripts/main.scpt main.applescript
