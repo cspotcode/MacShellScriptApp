@@ -1,2 +1,31 @@
 #!/usr/bin/env bash
+
+set -ex
+
 osacompile -o bundle.app/Contents/Resources/Scripts/main.scpt main.applescript
+
+# Generate icon
+iconName=icon
+iconSource=icon.png
+iconsetDir="$iconName.iconset"
+iconPath() { # $1 == dimension, $2 == @2x suffix
+    echo "${iconsetDir}/${iconName}_$1x$1$2.png"
+}
+createIconSize() { # $1 == size in pixels, $2 == optional "@2x" for retina
+    local imgDimension="$1"
+    if [[ "$2" == "@2x" ]]; then imgDimension=$(( $imgDimension * 2 )); fi
+    sips -Z "$imgDimension" "$iconSource" --out $(iconPath "$1" "$2")
+}
+mkdir -p "$iconsetDir"
+createIconSize 512 @2x
+createIconSize 512
+createIconSize 256 @2x
+createIconSize 256
+createIconSize 128 @2x
+createIconSize 128
+createIconSize 32 @2x
+createIconSize 32
+createIconSize 16 @2x
+createIconSize 16
+# Combine them all into an .icns
+iconutil --convert icns --output bundle.app/Contents/Resources/icon.icns "$iconsetDir"
