@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
 set -ex
+bundleDir=bundle.app
 
-osacompile -o bundle.app/Contents/Resources/Scripts/main.scpt main.applescript
+# Compile applescript
+osacompile -o "$bundleDir/Contents/Resources/Scripts/main.scpt" main.applescript
+
+# Copy main.sh to the right place
+cp main.sh "$bundleDir/Contents/Resources/Scripts/main.sh"
 
 # Generate icon
 iconName=icon
@@ -28,4 +33,4 @@ createIconSize 32
 createIconSize 16 @2x
 createIconSize 16
 # Combine them all into an .icns
-iconutil --convert icns --output bundle.app/Contents/Resources/icon.icns "$iconsetDir"
+iconutil --convert icns --output "$bundleDir/Contents/Resources/icon.icns" "$iconsetDir"
