@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
+
+# No need to run this.  It created the empty bundle.app which is now tracked by version control.
 osacompile -o bundle.app empty.applescript
